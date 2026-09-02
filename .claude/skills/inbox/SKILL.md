@@ -18,7 +18,8 @@ for one.
 
 ## Steps
 
-1. Fetch the emails: `uv run tools/fetch.py --sample`. It writes them to `work/inbox.json`.
+1. Fetch the emails: `uv run tools/fetch.py`. It writes them to `work/inbox.json`.
+   Add `--sample` to use the sample inbox instead of Gmail.
 2. Read `work/inbox.json`. Tell me how many emails came in, and who each one is from,
    one line each.
 
