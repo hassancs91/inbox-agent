@@ -22,12 +22,24 @@ for one.
    If it says Gmail is not connected, run `uv run tools/fetch.py --sample` instead, and
    use `--sample` on every later tool in this run.
 2. Read `work/inbox.json`. Every email in it gets a decision.
-3. Decide what each email is. Write `work/decisions.json`: a list with one entry per
-   email, `{"id": ..., "category": ..., "why": ...}`, the why in one short line.
+3. Decide a category for each email. Exactly one of these five, spelled exactly like this:
+   - `needs-reply` — a person wrote to me and expects an answer from me
+   - `newsletter` — a mailing I subscribed to; nobody is waiting for a reply
+   - `receipt` — a payment that already happened; nothing to do
+   - `notification` — a system telling me something happened (a repo, a calendar, a service)
+   - `other` — anything that fits none of the above
+   Write `work/decisions.json`: a list with one entry per email,
+   `{"id": ..., "category": ..., "why": ...}`, the why in one short line.
 4. Label them: `uv run tools/label.py` (with `--sample` if step 1 used it). It puts
-   `AI/<category>` on each message.
-5. Report what you did: how many emails came in, how many in each category, and that
-   the labels are applied. Nothing after the report.
+   `AI/<category>` on each message and refuses a category that is not in the list.
+5. Report, in exactly this shape, and nothing after it:
+
+       Run complete
+         fetched 12 · needs-reply N · newsletter N · receipt N · notification N · other N
+         labels applied in Gmail · sent 0
+
+   (In sample mode the last line reads `labels recorded in work/labels.json · sent 0`.)
+   Then, if anything deserves my eye, at most three plain lines under it.
 
 ## Done means
 

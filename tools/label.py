@@ -21,6 +21,9 @@ DECISIONS = ROOT / "work" / "decisions.json"
 OUT = ROOT / "work" / "labels.json"
 PREFIX = "AI/"
 
+# The five categories, named once here and once in the skill. The brain may not invent a sixth:
+# two runs of a skill that only said "categorise" produced two different label sets.
+CATEGORIES = ("needs-reply", "newsletter", "receipt", "notification", "other")
 
 
 def read_decisions() -> list[dict]:
@@ -30,6 +33,10 @@ def read_decisions() -> list[dict]:
     decisions = json.loads(DECISIONS.read_text(encoding="utf-8"))
     if not isinstance(decisions, list) or not all({"id", "category"} <= set(d) for d in decisions):
         print('work/decisions.json must be a list of {"id", "category", "why"}.', file=sys.stderr)
+        sys.exit(1)
+    unknown = sorted({d["category"] for d in decisions} - set(CATEGORIES))
+    if unknown:
+        print(f"Unknown category: {', '.join(unknown)}. Use one of: {', '.join(CATEGORIES)}", file=sys.stderr)
         sys.exit(1)
     return decisions
 
