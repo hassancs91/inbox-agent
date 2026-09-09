@@ -23,7 +23,7 @@ PREFIX = "AI/"
 
 # The five categories, named once here and once in the skill. The brain may not invent a sixth:
 # two runs of a skill that only said "categorise" produced two different label sets.
-CATEGORIES = ("needs-reply", "newsletter", "receipt", "notification", "other")
+CATEGORIES = ("needs-reply", "urgent", "newsletter", "notification", "other")
 
 
 def read_decisions() -> list[dict]:

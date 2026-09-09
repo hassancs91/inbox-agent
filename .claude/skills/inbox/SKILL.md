@@ -24,10 +24,11 @@ for one.
 2. Read `work/inbox.json`. Every email in it gets a decision.
 3. Decide a category for each email. Exactly one of these five, spelled exactly like this:
    - `needs-reply` — a person wrote to me and expects an answer from me
+   - `urgent` — the same, and the email names a deadline falling today or this week
    - `newsletter` — a mailing I subscribed to; nobody is waiting for a reply
-   - `receipt` — a payment that already happened; nothing to do
    - `notification` — a system telling me something happened (a repo, a calendar, a service)
    - `other` — anything that fits none of the above
+   When both `needs-reply` and `urgent` fit, `urgent` wins.
    Write `work/decisions.json`: a list with one entry per email,
    `{"id": ..., "category": ..., "why": ...}`, the why in one short line.
 4. Label them: `uv run tools/label.py` (with `--sample` if step 1 used it). It puts
@@ -35,7 +36,7 @@ for one.
 5. Report, in exactly this shape, and nothing after it:
 
        Run complete
-         fetched 12 · needs-reply N · newsletter N · receipt N · notification N · other N
+         fetched 12 · needs-reply N · urgent N · newsletter N · notification N · other N
          labels applied in Gmail · sent 0
 
    (In sample mode the last line reads `labels recorded in work/labels.json · sent 0`.)
