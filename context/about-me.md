@@ -1,7 +1,7 @@
 # About me
 
-I'm Hasan. I run LearnWithHasan: a YouTube channel, online courses, and a community for
-people who build things with AI. I work mostly alone, with a small team helping me.
+Not filled in yet. Run `/setup` and this file is written from your answers.
 
-My inbox is mostly students and customers asking questions, sponsorship offers, my
-accountant, newsletters I subscribed to, and notifications from the tools I use.
+Once it is filled, it says in a few plain lines who I am, what I do, what I am working on
+right now, and who writes to me in a normal week. The agent reads it to know whose inbox
+this is.

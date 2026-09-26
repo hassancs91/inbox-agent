@@ -1,8 +1,10 @@
 # Sender rules
 
-A row here beats the agent's own guess. Names as they show on the email, never addresses.
+Not filled in yet. Run `/setup` and this file is written from your answers.
+
+Once it is filled, it holds one row per sender: the name as it shows on their email, the
+category their mail always gets, and why. Names, never addresses. A row here beats the
+agent's own guess.
 
 | Sender, as the name shows on the email | Always | Because |
 |---|---|---|
-| Rami Khoury, Northfield Accounting | `urgent` | He is my accountant, so anything from him is always urgent. |
-| Karim Benali | `needs-reply` | He is a friend, anything from him is needs reply, and I reply to him in French. |

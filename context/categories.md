@@ -1,36 +1,33 @@
 # What the five categories mean for me
 
+Not filled in yet. Run `/setup` and this file is written from your answers.
+
 The five names are fixed: `needs-reply`, `urgent`, `newsletter`, `notification`, `other`.
-This file says what each one means in my life.
+This file does not add a sixth or rename one. Once it is filled, it says what each of the
+five means in my life, with real examples from my inbox, so the agent sorts the way I
+would.
 
 ## needs-reply
 
-**For me:** After money, students and customers asking a question, and my friends, because
-their messages get lost between all the noise.
-**Examples:** A student or customer asking a question. A message from a friend, like Karim
-Benali.
+**For me:**
+**Examples:**
 
 ## urgent
 
-**For me:** Anything about money. My accountant, especially before a quarter closes. Any
-sponsorship offer is urgent for me, even without a deadline, because that's money on the
-table and I answer those the same day.
-**Examples:** An email from my accountant before a quarter closes. A sponsorship offer.
+**For me:**
+**Examples:**
 
 ## newsletter
 
-**For me:** Newsletters I subscribed to. I read them on the weekend, so label them, but
-don't tell me about them.
-**Examples:** The newsletters I subscribed to; none named in particular.
+**For me:**
+**Examples:**
 
 ## notification
 
-**For me:** Notifications from the tools I use. Receipts, GitHub, calendar invites: I don't
-need to see any of those in the report.
-**Examples:** Receipts. GitHub notifications. Calendar invites.
+**For me:**
+**Examples:**
 
 ## other
 
-**For me:** Group threads where nobody is asking me anything in particular. I don't need to
-see those in the report.
-**Examples:** A group thread where nobody is asking me anything in particular.
+**For me:**
+**Examples:**

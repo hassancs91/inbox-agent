@@ -11,4 +11,4 @@ One line per correction, newest last, in this shape:
 The agent adds a line on the run after I relabel an email, and never a correction I did
 not make. It adds to this file; it never rewrites it.
 
-[you said] Nadia Farah is `needs-reply` — 2026-09-15
+No corrections yet.
