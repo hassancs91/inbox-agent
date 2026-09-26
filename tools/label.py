@@ -9,6 +9,9 @@
 
 One job. Decisions in, labels on. There is no AI in this file: the brain wrote
 work/decisions.json, a list of {"id", "category", "why"}, and this only carries it out.
+
+One AI label per message. When a second run changes its mind, the old AI/ label comes off
+in the same call that puts the new one on. Nothing else on the message is touched.
 """
 
 import argparse
@@ -42,6 +45,7 @@ def read_decisions() -> list[dict]:
 
 
 def label_sample(decisions: list[dict]) -> None:
+    # Keyed by message id: one label per message, so a changed decision replaces the old one.
     labels = {d["id"]: PREFIX + d["category"] for d in decisions}
     OUT.write_text(json.dumps(labels, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"{len(labels)} labels recorded in work/labels.json (sample mode, Gmail untouched)")
@@ -60,8 +64,13 @@ def label_gmail(decisions: list[dict]) -> None:
         return existing[name]
 
     for d in decisions:
+        want = label_id(PREFIX + d["category"])
+        # Swap, don't stack: take off every other AI/ label the account has, in the same call.
+        # Gmail ignores the removal of a label the message does not carry, so a first run and a
+        # second run that changed its mind go through the same line.
+        others = [lid for name, lid in existing.items() if name.startswith(PREFIX) and lid != want]
         svc.users().messages().modify(
-            userId="me", id=d["id"], body={"addLabelIds": [label_id(PREFIX + d["category"])]}
+            userId="me", id=d["id"], body={"addLabelIds": [want], "removeLabelIds": others}
         ).execute()
     print(f"{len(decisions)} labels applied in Gmail")
 

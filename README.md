@@ -15,7 +15,8 @@ The same shape as the setup checker, plus a tools folder:
 | `.claude/skills/inbox/SKILL.md` | the agent: one page of plain English, run by typing `/inbox` |
 | `tools/` | Python scripts with one job each and no AI inside, run through `uv` |
 | `fixtures/sample-inbox.json` | twelve sample emails, so the agent works before you connect anything |
-| `context/` | what the agent reads before it decides (filled in lecture 5) |
+| `.claude/skills/setup/SKILL.md` | the interview that fills `context/`, run by typing `/setup` |
+| `context/` | what the agent reads before it decides: who you are, what the five categories mean to you, which senders have a fixed rule |
 | `memory/` | what the agent keeps between runs (filled in lecture 7) |
 | `work/` | this run's files, ignored by git |
 
@@ -29,6 +30,19 @@ uv run tools/fetch.py --sample
 
 That prints `12 emails written to work/inbox.json`. Then open Claude Code in the folder
 and type `/inbox`. Nothing touches Google until you connect it.
+
+## Teach it what things mean to you
+
+```
+/setup
+```
+
+Three or four short questions in the chat, one at a time: who you are, what has to reach
+you and what makes it urgent, what can wait, and whose email always gets the same
+treatment. Senders are named the way their name shows on the email; it never asks for an
+address. The answers become the three files in `context/`, which the agent reads before it
+decides. A sender rule beats its own guess. Until you run `/setup` the files are templates
+and it decides on its own. Run `/setup` again to see what is there and change any of it.
 
 ## Connect Gmail
 
