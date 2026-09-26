@@ -16,7 +16,7 @@ The same shape as the setup checker, plus a tools folder:
 | `tools/` | Python scripts with one job each and no AI inside, run through `uv` |
 | `fixtures/sample-inbox.json` | twelve sample emails, so the agent works before you connect anything |
 | `.claude/skills/setup/SKILL.md` | the interview that fills `context/`, run by typing `/setup` |
-| `context/` | what the agent reads before it decides: who you are, what the five categories mean to you, which senders have a fixed rule |
+| `context/` | what the agent reads before it decides: who you are, what the five categories mean to you, which senders have a fixed rule, how you write a reply |
 | `memory/` | what the agent keeps between runs (filled in lecture 7) |
 | `work/` | this run's files, ignored by git |
 
@@ -37,12 +37,35 @@ and type `/inbox`. Nothing touches Google until you connect it.
 /setup
 ```
 
-Three or four short questions in the chat, one at a time: who you are, what has to reach
-you and what makes it urgent, what can wait, and whose email always gets the same
-treatment. Senders are named the way their name shows on the email; it never asks for an
-address. The answers become the three files in `context/`, which the agent reads before it
-decides. A sender rule beats its own guess. Until you run `/setup` the files are templates
-and it decides on its own. Run `/setup` again to see what is there and change any of it.
+Four or five short questions in the chat, one at a time: who you are, what has to reach
+you and what makes it urgent, what can wait, whose email always gets the same treatment,
+and how you write a reply. Senders are named the way their name shows on the email; it
+never asks for an address. The answers become the four files in `context/`, which the
+agent reads before it decides. A sender rule beats its own guess. Until you run `/setup`
+the files are templates and it decides on its own. Run `/setup` again to see what is there
+and change any of it. If the first three are already filled and only `voice.md` is not, it
+skips straight to the one question about how you write.
+
+## It drafts, you send
+
+For every email that needs an answer from you, `needs-reply` or `urgent`, the agent writes
+the reply in your voice, in the language the sender wrote in, and saves them all to
+`work/drafts.json`. It never invents a fact about you: when a reply needs something only
+you know, it writes around the gap and tells you under the report what to fill in. Before
+saving, it reads each draft back against three checks: it answers what was asked, it is in
+the sender's language, and there is no placeholder text.
+
+Then `tools/draft.py` creates a Gmail draft for each one, as a reply inside the same
+thread, so it shows up under the email, waiting for you. With `--sample` it records them
+in `work/drafts-created.json` instead. A thread that already has a draft is left alone.
+
+The report's last line counts them: `labels applied in Gmail · drafts N · sent 0`. Sent
+stays 0, and it stays 0 forever. Nothing in `tools/` can send; the word appears there only
+in comments saying so:
+
+```
+grep -ri send tools/
+```
 
 ## Connect Gmail
 
