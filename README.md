@@ -17,7 +17,7 @@ The same shape as the setup checker, plus a tools folder:
 | `fixtures/sample-inbox.json` | twelve sample emails, so the agent works before you connect anything |
 | `.claude/skills/setup/SKILL.md` | the interview that fills `context/`, run by typing `/setup` |
 | `context/` | what the agent reads before it decides: who you are, what the five categories mean to you, which senders have a fixed rule, how you write a reply |
-| `memory/` | what the agent keeps between runs (filled in lecture 7) |
+| `memory/` | what it keeps between runs: every email it has handled, and every label you changed by hand |
 | `work/` | this run's files, ignored by git |
 
 ## Run it
@@ -66,6 +66,43 @@ in comments saying so:
 ```
 grep -ri send tools/
 ```
+
+## It does not do the same work twice
+
+`memory/seen.json` is every email the agent has handled and the label it put on it.
+`tools/label.py` writes it the moment the labels are on; `tools/fetch.py` reads it before
+it fetches. An email in there, still carrying the label the agent gave it, is done, and
+fetch leaves it out. So the second run costs what the new mail costs, and nothing more:
+
+```
+12 in the inbox: 3 new, 0 you changed, 9 already done -> 3 written to work/inbox.json
+```
+
+Nothing new and nothing changed is the whole run. The agent says so in one line and stops.
+
+## When you correct it, the correction sticks
+
+Change a label in Gmail and you have told the agent it was wrong. The label is no longer
+the one it put there, so fetch brings that email back as a correction, saying what the
+agent called it and what you call it. The agent writes the correction down in
+`memory/corrections.md`, one line, as a rule for every run after this one:
+
+```
+[you said] Lina Haddad is `urgent` — 2026-09-15
+```
+
+From then on it reads that file along with `context/`, before it decides anything. A line
+in it beats what the agent works out for itself, exactly the way a sender rule does; being
+the later word, it also beats a sender rule that disagrees. It only ever writes down a
+correction you actually made: take a label off without putting another on and you have not
+said what the email is, so that one just gets decided again.
+
+With `--sample` there is no Gmail, so the labels the agent compares against are the ones
+`label.py` recorded in `work/labels.json`. Edit a label there and the next run sees a
+correction, exactly as it would in Gmail.
+
+Both memory files, and `work/labels.json` in sample mode, are updated by a run, never
+replaced.
 
 ## Connect Gmail
 

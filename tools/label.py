@@ -12,16 +12,21 @@ work/decisions.json, a list of {"id", "category", "why"}, and this only carries 
 
 One AI label per message. When a second run changes its mind, the old AI/ label comes off
 in the same call that puts the new one on. Nothing else on the message is touched.
+
+Then it writes down what it just did, in memory/seen.json: every id, the category it put
+on it, and today's date. That is how the next run knows to leave these emails alone.
 """
 
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DECISIONS = ROOT / "work" / "decisions.json"
 OUT = ROOT / "work" / "labels.json"
+SEEN = ROOT / "memory" / "seen.json"
 PREFIX = "AI/"
 
 # The five categories, named once here and once in the skill. The brain may not invent a sixth:
@@ -44,11 +49,19 @@ def read_decisions() -> list[dict]:
     return decisions
 
 
+def read_json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
 def label_sample(decisions: list[dict]) -> None:
-    # Keyed by message id: one label per message, so a changed decision replaces the old one.
-    labels = {d["id"]: PREFIX + d["category"] for d in decisions}
+    # Sample mode has no Gmail, so this file is the mailbox's labels: what is on each
+    # message now. Updated, never replaced. A run that labels three messages must not wipe
+    # the label off the other nine, and the label you changed by hand stays changed until
+    # a decision covers that message again.
+    labels = read_json(OUT)
+    labels.update({d["id"]: PREFIX + d["category"] for d in decisions})
     OUT.write_text(json.dumps(labels, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"{len(labels)} labels recorded in work/labels.json (sample mode, Gmail untouched)")
+    print(f"{len(decisions)} labels recorded in work/labels.json (sample mode, Gmail untouched)")
 
 
 def label_gmail(decisions: list[dict]) -> None:
@@ -75,6 +88,21 @@ def label_gmail(decisions: list[dict]) -> None:
     print(f"{len(decisions)} labels applied in Gmail")
 
 
+def remember(decisions: list[dict]) -> None:
+    """Write down what this run handled, so the next one does not handle it again.
+
+    Updated, never replaced: the emails this run did not touch were still handled, and
+    they stay in the file. Written after the labels are on, so a run that failed halfway
+    is a run the next one does over.
+    """
+    seen = read_json(SEEN)
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    seen.update({d["id"]: {"category": d["category"], "run": today} for d in decisions})
+    SEEN.parent.mkdir(exist_ok=True)
+    SEEN.write_text(json.dumps(seen, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"{len(decisions)} written to memory/seen.json ({len(seen)} handled in all)")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Apply work/decisions.json as AI/<category> labels.")
     parser.add_argument("--sample", action="store_true", help="record labels in work/labels.json instead of Gmail")
@@ -85,6 +113,7 @@ def main() -> None:
         label_sample(decisions)
     else:
         label_gmail(decisions)
+    remember(decisions)
 
 
 if __name__ == "__main__":

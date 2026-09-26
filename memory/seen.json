@@ -1,0 +1,50 @@
+{
+  "m001": {
+    "category": "urgent",
+    "run": "2026-09-15"
+  },
+  "m002": {
+    "category": "urgent",
+    "run": "2026-09-15"
+  },
+  "m003": {
+    "category": "newsletter",
+    "run": "2026-09-15"
+  },
+  "m004": {
+    "category": "newsletter",
+    "run": "2026-09-15"
+  },
+  "m005": {
+    "category": "notification",
+    "run": "2026-09-15"
+  },
+  "m006": {
+    "category": "notification",
+    "run": "2026-09-15"
+  },
+  "m007": {
+    "category": "needs-reply",
+    "run": "2026-09-15"
+  },
+  "m008": {
+    "category": "needs-reply",
+    "run": "2026-09-15"
+  },
+  "m009": {
+    "category": "notification",
+    "run": "2026-09-15"
+  },
+  "m010": {
+    "category": "needs-reply",
+    "run": "2026-09-15"
+  },
+  "m011": {
+    "category": "notification",
+    "run": "2026-09-15"
+  },
+  "m012": {
+    "category": "other",
+    "run": "2026-09-15"
+  }
+}
