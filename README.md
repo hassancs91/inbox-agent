@@ -1,7 +1,12 @@
 # The inbox agent
 
+This is the project you build in module 2 of **Agentic Automation 3.0**, the course at
+[learnwithhasan.com/courses/agentic-automation-3](https://learnwithhasan.com/courses/agentic-automation-3/).
+Eight lectures build this folder one piece at a time, with Claude Code, on camera. If you
+are not in the course, that page says what it teaches. The folder works on its own too.
+
 An agent that reads your inbox, decides what each email is, labels it, and writes reply
-drafts it cannot send. Built in Agentic Automation 3.0, module 2, one lecture at a time.
+drafts it cannot send.
 
 The rule: **it drafts, you send. It sorts, it never deletes.** That is not a promise in a
 prompt. There is no send tool and no delete tool in this folder.
@@ -20,6 +25,26 @@ The same shape as the setup checker, plus a tools folder:
 | `memory/` | what it keeps between runs: every email it has handled, and every label you changed by hand |
 | `work/` | this run's files, ignored by git |
 
+## Lecture by lecture
+
+Each tag is the folder exactly as that lecture left it. `main` is the finished folder
+with an empty memory and template context, ready for your inbox.
+
+| Lecture | Tag | What lands |
+|---|---|---|
+| 02 The skeleton | `l2-skeleton` | the folder, the skill, `fetch.py`, twelve sample emails |
+| 03 Connect Gmail | `l3-connected` | one permission, `connect.py`, `/connect-gmail` |
+| 04 The first run | `l4-first-run` | five categories, `label.py`, the report |
+| 05 Context | `l5-context` | `context/` and `/setup` |
+| 06 Drafts, not sends | `l6-drafts` | `voice.md`, `draft.py`, `drafts N · sent 0` |
+| 07 Memory | `l7-memory` | `memory/seen.json` and `memory/corrections.md` |
+
+To see the folder as it stood after a lecture:
+
+```
+git checkout l4-first-run
+```
+
 ## Run it
 
 ```
@@ -28,8 +53,8 @@ cd inbox-agent
 uv run tools/fetch.py --sample
 ```
 
-That prints `12 emails written to work/inbox.json`. Then open Claude Code in the folder
-and type `/inbox`. Nothing touches Google until you connect it.
+That prints `12 in the inbox: 12 new, 0 you changed, 0 already done -> 12 written to
+work/inbox.json`. Then open Claude Code in the folder and type `/inbox`. Nothing touches Google until you connect it.
 
 ## Teach it what things mean to you
 
