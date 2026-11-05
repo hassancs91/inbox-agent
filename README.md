@@ -11,6 +11,9 @@ drafts it cannot send.
 The rule: **it drafts, you send. It sorts, it never deletes.** That is not a promise in a
 prompt. There is no send tool and no delete tool in this folder.
 
+The ready-to-install PyRun plugin of this agent is in the release
+[pyrun-plugin-v0.6.1](https://github.com/hassancs91/inbox-agent/releases/tag/pyrun-plugin-v0.6.1).
+
 ## The shape
 
 The same shape as the setup checker, plus a tools folder:
@@ -163,3 +166,8 @@ Then fetch for real, same tool, no flag:
 ```
 uv run tools/fetch.py
 ```
+
+## License
+
+MIT, in [LICENSE](LICENSE). Use it, build on it, even sell it. The PyRun plugin in the
+release is MIT too.
